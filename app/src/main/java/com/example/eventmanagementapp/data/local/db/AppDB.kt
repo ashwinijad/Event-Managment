@@ -11,6 +11,9 @@ import com.example.eventmanagementapp.utils.Converters
 @TypeConverters(Converters::class)
 abstract class AppDB : RoomDatabase() {
 
+    /**
+     * Provides access to the EventDAO for database operations.
+     */
     abstract fun eventDAO(): EventDAO
 
     companion object {
@@ -18,6 +21,10 @@ abstract class AppDB : RoomDatabase() {
         @Volatile
         private var instance: AppDB? = null
 
+        /**
+         * Returns a singleton instance of the AppDB. If the instance is not already created,
+         * it initializes the Room database.
+         */
         fun getAppDB(context: Context): AppDB? {
             if (instance == null) {
                 synchronized(AppDB::class) {
@@ -27,7 +34,7 @@ abstract class AppDB : RoomDatabase() {
                             AppDB::class.java,
                             DB_NAME
                         )
-                            .fallbackToDestructiveMigration()
+                            .fallbackToDestructiveMigration() // Recreates the database if the schema is changed
                             .build()
                     }
                 }

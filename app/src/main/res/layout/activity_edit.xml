@@ -14,16 +14,22 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar_edit_page" />
 
-        <EditText
-            android:id="@+id/edtEventName"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEventName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:hint="@string/enter_event_name"
             android:inputType="textMultiLine|textCapSentences"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            tools:ignore="Autofill" />
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtEventName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_event_name" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/tvDate"
@@ -35,7 +41,7 @@
             android:text="@string/no_date_selected"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edtEventName" />
+            app:layout_constraintTop_toBottomOf="@id/tilEventName" />
 
         <Button
             android:id="@+id/btnSelectDate"
@@ -69,42 +75,57 @@
             app:layout_constraintStart_toEndOf="@id/tvTime"
             app:layout_constraintTop_toTopOf="@id/tvTime" />
 
-        <EditText
-            android:id="@+id/edtLocation"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:hint="@string/enter_location"
             android:inputType="textMultiLine|textCapSentences"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnSelectTime"
-            tools:ignore="Autofill" />
+            app:layout_constraintTop_toBottomOf="@id/btnSelectTime">
 
-        <EditText
-            android:id="@+id/edtDescription"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_location" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:hint="@string/enter_description"
             android:inputType="textMultiLine|textCapSentences"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edtLocation"
-            tools:ignore="Autofill" />
+            app:layout_constraintTop_toBottomOf="@id/tilLocation">
 
-        <EditText
-            android:id="@+id/edtEnterParticipant"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_description" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilParticipant"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
-            android:hint="@string/add_participant"
-            android:includeFontPadding="false"
-            android:inputType="text"
-            android:textColor="@color/black"
+            android:layout_margin="10dp"
+            android:inputType="textMultiLine|textCapSentences"
             app:layout_constraintEnd_toStartOf="@id/btnAddParticipant"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edtDescription"
-            tools:ignore="Autofill" />
+            app:layout_constraintTop_toBottomOf="@id/tilDescription">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtEnterParticipant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/add_participant" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btnAddParticipant"
@@ -113,10 +134,10 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:text="@string/add"
-            app:layout_constraintBottom_toBottomOf="@id/edtEnterParticipant"
+            app:layout_constraintBottom_toBottomOf="@id/tilParticipant"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/edtEnterParticipant"
-            app:layout_constraintTop_toTopOf="@id/edtEnterParticipant" />
+            app:layout_constraintStart_toEndOf="@id/tilParticipant"
+            app:layout_constraintTop_toTopOf="@id/tilParticipant" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipGroup"

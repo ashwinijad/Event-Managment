@@ -34,13 +34,16 @@ class EditEventActivity : AppCompatActivity() {
     private var mSelectedYear = 0
     private var mSelectedHour = 0
     private var mSelectedMinute = 0
-    private var selectedParticipant :MutableList<String> = mutableListOf()
+    private var selectedParticipant: MutableList<String> = mutableListOf()
     private var eventId = 0
     private val toolBarTitle by lazy { binding.root.findViewById<TextView>(R.id.toolbarTitle) }
     private val ivSave by lazy { binding.root.findViewById<ImageView>(R.id.ivSave) }
     private val ivDelete by lazy { binding.root.findViewById<ImageView>(R.id.ivDelete) }
 
     companion object {
+        /**
+         * Creates an Intent for starting EditEventActivity.
+         */
         fun newIntent(context: Context): Intent = Intent(context, EditEventActivity::class.java)
     }
 
@@ -52,6 +55,9 @@ class EditEventActivity : AppCompatActivity() {
         setUpOnClickListeners()
     }
 
+    /**
+     * Sets up click listeners for the buttons and icons.
+     */
     private fun setUpOnClickListeners() {
         binding.btnSelectDate.setOnClickListener {
             getDateFromPicker()
@@ -63,16 +69,16 @@ class EditEventActivity : AppCompatActivity() {
 
         binding.btnAddParticipant.setOnClickListener {
             if (binding.edtEnterParticipant.text.toString().isBlank())
-                Toast.makeText(this,"Participant cannot be empty",Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Participant cannot be empty", Toast.LENGTH_LONG).show()
             else
-                 addChipToGroup(binding.edtEnterParticipant.text.toString())
+                addChipToGroup(binding.edtEnterParticipant.text.toString())
         }
 
         ivSave.setOnClickListener {
-            if (binding.edtEventName.text.isNotBlank())
+            if (binding.edtEventName.text?.isNotBlank() == true)
                 saveAndReturn()
             else
-                Toast.makeText(this,"Event Name cannot be Empty or Blank",Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Event Name cannot be Empty or Blank", Toast.LENGTH_LONG).show()
         }
 
         ivDelete.setOnClickListener {
@@ -82,8 +88,11 @@ class EditEventActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
+    /**
+     * Opens a date picker dialog and updates the selected date.
+     */
     private fun getDateFromPicker() {
-        // Get Current Date
+        // Get current date if no date is selected yet
         if (mSelectedYear == 0) {
             val c: Calendar = Calendar.getInstance()
             mSelectedYear = c.get(Calendar.YEAR)
@@ -93,12 +102,11 @@ class EditEventActivity : AppCompatActivity() {
 
         val datePickerDialog = DatePickerDialog(
             this,
-            { _, year, monthOfYear, dayOfMonth ->run {
-                binding.tvDate.text = dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + year
+            { _, year, monthOfYear, dayOfMonth ->
+                binding.tvDate.text = "$dayOfMonth/${monthOfYear + 1}/$year"
                 mSelectedYear = year
                 mSelectedMonth = monthOfYear
-                mSelectedMinute = dayOfMonth
-            }
+                mSelectedDay = dayOfMonth
             },
             mSelectedYear,
             mSelectedMonth,
@@ -108,27 +116,25 @@ class EditEventActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
+    /**
+     * Opens a time picker dialog and updates the selected time.
+     */
     private fun getTimeFromPicker() {
-
-        // Get Current Time
+        // Get current time if no time is selected yet
         if (mSelectedHour == 0) {
             val c = Calendar.getInstance()
             mSelectedHour = c[Calendar.HOUR_OF_DAY]
             mSelectedMinute = c[Calendar.MINUTE]
         }
 
-
-        // Launch Time Picker Dialog
         val timePickerDialog = TimePickerDialog(
             this,
             { _, hourOfDay, minute ->
-                run {
-                    val timeStr = String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute)
-                    val convertedTime = convert24HourTo12Hour(timeStr)
-                    binding.tvTime.text = convertedTime
-                    mSelectedHour = hourOfDay
-                    mSelectedMinute = minute
-                }
+                val timeStr = String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute)
+                val convertedTime = convert24HourTo12Hour(timeStr)
+                binding.tvTime.text = convertedTime
+                mSelectedHour = hourOfDay
+                mSelectedMinute = minute
             },
             mSelectedHour,
             mSelectedMinute,
@@ -137,6 +143,9 @@ class EditEventActivity : AppCompatActivity() {
         timePickerDialog.show()
     }
 
+    /**
+     * Initializes the ViewModel and sets up the toolbar title and event data if editing an existing event.
+     */
     private fun initViewModel() {
         editEventViewModel.mLiveData.observe(this) { event ->
             if (event != null) {
@@ -147,7 +156,7 @@ class EditEventActivity : AppCompatActivity() {
                 binding.edtDescription.setText(event.description)
                 if (event.participantsList.isNotBlank()) {
                     val selectedParticipants = Converters().jsonStringToList(event.participantsList)
-                    selectedParticipants.map {
+                    selectedParticipants.forEach {
                         addChipToGroup(it)
                     }
                 }
@@ -155,7 +164,7 @@ class EditEventActivity : AppCompatActivity() {
         }
         val extras = intent.extras
         if (extras == null) {
-            toolBarTitle.text= getString(R.string.new_event)
+            toolBarTitle.text = getString(R.string.new_event)
             isNewEvent = true
         } else {
             ivDelete.visibility = View.VISIBLE
@@ -165,6 +174,9 @@ class EditEventActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Saves or updates the event and finishes the activity.
+     */
     private fun saveAndReturn() {
         val eventEntity = EventEntity(
             id = eventId,
@@ -183,21 +195,24 @@ class EditEventActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
+    /**
+     * Adds a chip to the chip group for each participant.
+     */
     private fun addChipToGroup(person: String) {
         binding.edtEnterParticipant.setText("")
         selectedParticipant.add(person)
-        val chip = Chip(this)
-        chip.text = person
-        chip.chipIcon = ContextCompat.getDrawable(this, R.drawable.ic_launcher_background)
-        chip.isChipIconVisible = false
-        chip.isCloseIconVisible = true
-        chip.isClickable = true
-        chip.isCheckable = false
+        val chip = Chip(this).apply {
+            text = person
+            chipIcon = ContextCompat.getDrawable(this@EditEventActivity, R.drawable.ic_launcher_background)
+            isChipIconVisible = false
+            isCloseIconVisible = true
+            isClickable = true
+            isCheckable = false
+        }
         binding.chipGroup.addView(chip as View)
         chip.setOnCloseIconClickListener {
             selectedParticipant.remove(chip.text.toString())
             binding.chipGroup.removeView(chip as View)
         }
     }
-
 }

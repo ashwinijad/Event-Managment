@@ -15,31 +15,44 @@ import java.util.Locale
 
 class EventAdapter(private var mEvents: MutableList<EventEntity>) :
     RecyclerView.Adapter<EventAdapter.ViewHolder>() {
+
     private var filteredNameList: MutableList<EventEntity>? = null
 
     init {
+        // Initializes the filtered list with the full list of events.
         filteredNameList = mEvents
     }
 
+    /**
+     * Binds the data from the event entity to the view holder.
+     */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val eventEntity = filteredNameList?.get(position)
         eventEntity?.let { holder.bind(it) }
     }
 
-    override fun getItemCount(): Int = filteredNameList?.size?:0
+    /**
+     * Returns the number of items in the filtered list.
+     */
+    override fun getItemCount(): Int = filteredNameList?.size ?: 0
 
+    /**
+     * Creates a new view holder for the item view.
+     */
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
-        val binding =
-            ItemEventListBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
+        val binding = ItemEventListBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return ViewHolder(binding)
     }
 
-    inner class ViewHolder(private var binding: ItemEventListBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(eventEntity: EventEntity){
+    inner class ViewHolder(private var binding: ItemEventListBinding) : RecyclerView.ViewHolder(binding.root) {
+        /**
+         * Binds event entity data to the view elements.
+         */
+        fun bind(eventEntity: EventEntity) {
             binding.apply {
                 tvEventName.text = eventEntity.name
                 tvDate.text = eventEntity.date
@@ -50,6 +63,7 @@ class EventAdapter(private var mEvents: MutableList<EventEntity>) :
                     eventEntity.location
 
                 root.setOnClickListener {
+                    // Starts EditEventActivity when the item is clicked.
                     val intent = Intent(binding.root.context, EditEventActivity::class.java)
                     intent.putExtra(Constants.EVENT_ID_KEY, eventEntity.id)
                     binding.root.context.startActivity(intent)
@@ -58,6 +72,9 @@ class EventAdapter(private var mEvents: MutableList<EventEntity>) :
         }
     }
 
+    /**
+     * Returns a filter used for filtering the list of events based on the user's input.
+     */
     @Suppress("UNCHECKED_CAST")
     fun getFilter(): Filter {
         return object : Filter() {
@@ -73,8 +90,8 @@ class EventAdapter(private var mEvents: MutableList<EventEntity>) :
                         ) {
                             filteredList.add(event)
                         }
-                        filteredNameList = filteredList
                     }
+                    filteredNameList = filteredList
                 }
                 val results = FilterResults()
                 results.values = filteredNameList
@@ -83,9 +100,8 @@ class EventAdapter(private var mEvents: MutableList<EventEntity>) :
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults) {
                 filteredNameList = results.values as? MutableList<EventEntity>
-                notifyDataSetChanged()
+                notifyDataSetChanged() // Notifies the adapter to refresh the view.
             }
         }
     }
-
 }

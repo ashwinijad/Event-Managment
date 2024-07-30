@@ -6,27 +6,31 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_event_managemet_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_event_managemet_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.EventManagementApp"
         tools:targetApi="31">
         <activity
-            android:name=".ui.home.MainActivity"
+            android:name=".ui.splash.EventLauncherScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+        <activity
+            android:name=".ui.home.MainActivity"
+            android:exported="true" />
         <activity
             android:name=".ui.edit.EditEventActivity"
             android:parentActivityName=".ui.home.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.home.MainActivity"/>
+                android:value=".ui.home.MainActivity" />
         </activity>
     </application>
 

@@ -34,19 +34,12 @@ class MainActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         initViewModel()
         setUpOnClickListeners()
-        binding.searchView.setOnQueryTextListener(object : OnQueryTextListener {
-            override fun onQueryTextSubmit(queryString: String?): Boolean {
-                mAdapter?.getFilter()?.filter(queryString)
-                return false
-            }
-
-            override fun onQueryTextChange(queryString: String?): Boolean {
-                mAdapter?.getFilter()?.filter(queryString)
-                return false
-            }
-        })
+        setUpSearchViewListener()
     }
 
+    /**
+     * Initializes the ViewModel and sets up the observer for the event list.
+     */
     private fun initViewModel() {
         val eventsObserver: Observer<MutableList<EventEntity>> = Observer {
             eventsEntityList.clear()
@@ -57,6 +50,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 mAdapter?.notifyDataSetChanged()
             }
+            // Show or hide empty view based on the number of items in the adapter
             binding.tvEmptyView.visibility = if ((mAdapter?.itemCount ?: 0) > 0)
                 View.GONE
             else
@@ -65,6 +59,9 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.mEvents.observe(this, eventsObserver)
     }
 
+    /**
+     * Sets up click listeners for the FloatingActionButton and menu options.
+     */
     private fun setUpOnClickListeners() {
         binding.addFab.setOnClickListener {
             addFabClickHandler()
@@ -85,47 +82,74 @@ class MainActivity : AppCompatActivity() {
                     binding.searchView.requestFocusFromTouch()
                 } else
                     Toast.makeText(this, "No Events to Search", Toast.LENGTH_LONG).show()
-            }else {
+            } else {
                 binding.searchView.setQuery("", false)
                 binding.searchView.clearFocus()
                 binding.searchView.visibility = View.GONE
             }
         }
 
+        // Handle close button click on the search view
         val closeButton: View? = binding.searchView.findViewById(androidx.appcompat.R.id.search_close_btn)
         closeButton?.setOnClickListener {
             if (binding.searchView.query.isEmpty()) {
                 binding.searchView.setQuery("", false)
                 binding.searchView.clearFocus()
                 binding.searchView.visibility = View.GONE
-            }else{
+            } else {
                 binding.searchView.setQuery("", false)
             }
         }
-
     }
 
-    private fun showPopupMenu(view: View) {
-            val menu = PopupMenu(applicationContext, view)
-            menu.menu.add(Menu.NONE, 1, 1, R.string.delete_all)
-            menu.show()
-            menu.setOnMenuItemClickListener { item ->
-                val i = item.itemId
-                if (i == 1) {
-                    deleteAllEvents()
-                    true
-                }else {
-                    false
-                }
+    /**
+     * Sets up the search view query text listener for filtering events.
+     */
+    private fun setUpSearchViewListener() {
+        binding.searchView.setOnQueryTextListener(object : OnQueryTextListener {
+            override fun onQueryTextSubmit(queryString: String?): Boolean {
+                mAdapter?.getFilter()?.filter(queryString)
+                return false
             }
+
+            override fun onQueryTextChange(queryString: String?): Boolean {
+                mAdapter?.getFilter()?.filter(queryString)
+                return false
+            }
+        })
     }
 
+    /**
+     * Displays a popup menu with options for the user.
+     */
+    private fun showPopupMenu(view: View) {
+        val menu = PopupMenu(applicationContext, view)
+        menu.menu.add(Menu.NONE, 1, 1, R.string.delete_all)
+        menu.show()
+        menu.setOnMenuItemClickListener { item ->
+            val i = item.itemId
+            if (i == 1) {
+                deleteAllEvents()
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    /**
+     * Deletes all events by calling the ViewModel.
+     */
     private fun deleteAllEvents() {
         mainViewModel.deleteAllEvents()
     }
 
+    /**
+     * Handles the click event of the FloatingActionButton to start the EditEventActivity.
+     */
     private fun addFabClickHandler() {
         val intent = EditEventActivity.newIntent(this)
         startActivity(intent)
     }
 }
+

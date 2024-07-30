@@ -8,14 +8,6 @@
 
     <include
         layout="@layout/toolbar_home_page"/>
-  <!--  <androidx.appcompat.widget.Toolbar
-        android:id="@+id/mainToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="Event Management"
-        app:titleTextColor="@color/white" />-->
 
     <TextView
         android:id="@+id/tvEmptyView"
@@ -63,7 +55,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_add"
-        tools:ignore="ContentDescription,OnClick" />
+        tools:ignore="ContentDescription,OnClick"
+        android:contentDescription="@string/event_management" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

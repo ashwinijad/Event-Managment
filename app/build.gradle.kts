@@ -36,7 +36,6 @@ android {
     }
     buildFeatures {
         viewBinding = true
-        dataBinding = true
     }
 }
 
@@ -54,7 +53,4 @@ dependencies {
     kapt(libs.androidx.room.complier)
     implementation(libs.androidx.lifecycle.extension)
     implementation(libs.gson)
-   // kapt(libs.androidx.l)
-    //for architecture component lesson
-    //kapt("android.arch.persistence.room:compiler:1.1.1")
 }
