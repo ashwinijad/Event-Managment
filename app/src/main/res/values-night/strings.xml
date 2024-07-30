@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_date_selected">No Date Selected</string>
+    <string name="select_date">SELECT DATE</string>
+    <string name="no_time_selected">No Time Selected</string>
+    <string name="select_time">SELECT TIME</string>
+    <string name="enter_event_name">Enter Event Name</string>
+    <string name="enter_location">Enter Location</string>
+    <string name="enter_description">Enter Description</string>
+    <string name="add">ADD</string>
+    <string name="add_participant">Add Participant</string>
+    <string name="event_management">Event Manager</string>
+    <string name="no_location_added">No Location Added</string>
+    <string name="click_on_add_button_to_insert_the_events">Click on Add Button To Insert the Events</string>
+</resources>

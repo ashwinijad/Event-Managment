@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/toolbarHome"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:titleTextColor="@color/white"
+    app:contentInsetStartWithNavigation="0dp"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    android:background="?attr/colorPrimary">
+
+    <TextView
+        android:id="@+id/toolbarTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:textColor="@color/white"
+        android:text="@string/event_management"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/ivMoreOption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_gravity="end"
+        android:src="@drawable/ic_vertical_three_dots"
+        app:tint="@color/white"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/ivSearchOption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/ic_home_search"
+        tools:ignore="ContentDescription" />
+</androidx.appcompat.widget.Toolbar>
