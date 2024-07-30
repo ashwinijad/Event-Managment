@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import com.example.eventmanagementapp.utils.Constants
 import com.example.eventmanagementapp.R
@@ -36,6 +37,7 @@ class EditEventActivity : AppCompatActivity() {
     private var mSelectedMinute = 0
     private var selectedParticipant: MutableList<String> = mutableListOf()
     private var eventId = 0
+    private val toolBarEdit by lazy { binding.root.findViewById<Toolbar>(R.id.toolbar) }
     private val toolBarTitle by lazy { binding.root.findViewById<TextView>(R.id.toolbarTitle) }
     private val ivSave by lazy { binding.root.findViewById<ImageView>(R.id.ivSave) }
     private val ivDelete by lazy { binding.root.findViewById<ImageView>(R.id.ivDelete) }
@@ -59,6 +61,10 @@ class EditEventActivity : AppCompatActivity() {
      * Sets up click listeners for the buttons and icons.
      */
     private fun setUpOnClickListeners() {
+        toolBarEdit.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
         binding.btnSelectDate.setOnClickListener {
             getDateFromPicker()
         }
@@ -115,7 +121,6 @@ class EditEventActivity : AppCompatActivity() {
         datePickerDialog.show()
     }
 
-    @SuppressLint("SetTextI18n")
     /**
      * Opens a time picker dialog and updates the selected time.
      */

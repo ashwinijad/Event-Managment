@@ -7,6 +7,7 @@
     android:layout_height="?attr/actionBarSize"
     android:titleTextColor="@color/white"
     app:contentInsetStartWithNavigation="0dp"
+    app:navigationIcon="@drawable/ic_back"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
     android:background="?attr/colorPrimary">
 

@@ -27,6 +27,8 @@ abstract class AppDB : RoomDatabase() {
          */
         fun getAppDB(context: Context): AppDB? {
             if (instance == null) {
+                //Used synchronized to ensure thread safety when creating the singleton instance.
+                // This prevents multiple threads from creating multiple instances of the repository.
                 synchronized(AppDB::class) {
                     if(instance == null) {
                         instance = Room.databaseBuilder(
