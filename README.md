@@ -4,8 +4,9 @@ This is a sample Event Management app built with Kotlin and Android. The app all
 
 
 Prerequisites
-1.Android Studio
-2.JDK 8 or higher
+
+1. Android Studio
+2. JDK 8 or higher
 
 Getting Started
 Follow these steps to set up and run the app on your local machine.
