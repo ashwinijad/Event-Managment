@@ -28,3 +28,9 @@ By cloning the Repository from github
 4. let the gradle build
 5. connect the device or download the emulator
 6. click on run to install the apk
+
+
+demo video:-- 
+https://github.com/user-attachments/assets/a144a422-121a-46a6-84c6-0af5c73835a4
+
+
